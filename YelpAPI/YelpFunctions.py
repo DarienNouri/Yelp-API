@@ -1,3 +1,6 @@
+# Author: Darien Nouri
+# Script: YelpFunctions.py
+
 import os
 import platform
 import requests
@@ -6,9 +9,7 @@ from io import BytesIO
 from bs4 import BeautifulSoup
 import json
 
-
-
-
+# Function to get restaurant containers from BeautifulSoup object
 def get_restaurant_containers(soup):
     try:
         item = soup.select_one('script[data-hypernova-key="yelpfrontend__5385__yelpfrontend__GondolaSearch__dynamic"]').text
@@ -19,7 +20,7 @@ def get_restaurant_containers(soup):
     except Exception:
         return None
 
-
+# Function to parse restaurant container and return business info
 def parse_restaurant_container(json_obj):
     business_info_container = {}
     params = ['name', 'businessUrl', 'priceRange', 'rating', 'reviewCount', 'neighborhoods']
@@ -35,7 +36,7 @@ def parse_restaurant_container(json_obj):
     except Exception:
         return None
 
-
+# Function to get restaurant page data including health rating, address, and reservation information
 def get_restaurant_page_data(business_url):
     headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/44.0.2403.157 Safari/537.36'}
     restaurant_url = f'https://www.yelp.com{business_url}'
@@ -64,7 +65,3 @@ def get_restaurant_page_data(business_url):
             page_data_container['takesReservations'] = None
 
     return page_data_container
-
-
-
-
